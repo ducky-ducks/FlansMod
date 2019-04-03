@@ -456,14 +456,26 @@ public class EntityVehicle extends EntityDriveable implements IExplodeable
 			{
 				wheel.motionY += type.buoyancy;
 			}
-			
+
+			if ((type.floatOnWater && isOnLand()) || (type.tank && inWater))
+			{
+				type.maxThrottle = 0;
+				type.maxNegativeThrottle = 0;
+			}
+			else
+			{
+				type.maxThrottle = (float)0.45;
+				type.maxNegativeThrottle = (float)0.25;
+
+			}
+
 			wheel.move(MoverType.PLAYER, wheel.motionX, wheel.motionY, wheel.motionZ);
-			
+
 			//Pull wheels towards car
 			Vector3f targetWheelPos = axes
 					.findLocalVectorGlobally(getVehicleType().wheelPositions[wheel.getExpectedWheelID()].position);
 			Vector3f currentWheelPos = new Vector3f(wheel.posX - posX, wheel.posY - posY, wheel.posZ - posZ);
-			
+
 			Vector3f dPos = ((Vector3f)Vector3f.sub(targetWheelPos, currentWheelPos, null)
 					.scale(getVehicleType().wheelSpringStrength));
 			

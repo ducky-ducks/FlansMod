@@ -118,6 +118,11 @@ public abstract class EntityDriveable extends Entity implements IControllable, I
 	/**
 	 * Whether each mouse button is held
 	 */
+	public boolean onLand;
+	/***
+	 *  is wehicle on land
+	 */
+
 	public boolean leftMouseHeld = false, rightMouseHeld = false;
 	
 	/**
@@ -507,6 +512,14 @@ public abstract class EntityDriveable extends Entity implements IControllable, I
 				break;
 		}
 	}
+
+	/***
+	 * This method called for looking is vehicle on land or on water
+	 */
+	public boolean isOnLand() {
+		return this.onLand;
+	}
+
 	
 	/**
 	 * Shoot method called by pressing / holding shoot buttons
@@ -1154,6 +1167,13 @@ public abstract class EntityDriveable extends Entity implements IControllable, I
 					getDriveableData().setInventorySlotContents(i, new ItemStack(Items.BUCKET));
 				}
 			}
+		}
+		for (EntityWheel wheel: wheels)
+		{
+			if (wheel.isOverWater())
+				onLand = false;
+			else
+				onLand = true;
 		}
 	}
 	
